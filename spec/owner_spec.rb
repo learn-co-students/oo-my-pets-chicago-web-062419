@@ -1,20 +1,18 @@
-require 'pry'
-require_relative 'spec_helper.rb'
+require "pry"
+require_relative "spec_helper.rb"
 
 describe Owner do
-
   before do
     @owner = Owner.new("Victoria")
   end
 
-  after do 
+  after do
     Owner.all.clear
     Cat.all.clear
     Dog.all.clear
   end
 
-  context 'Class methods' do
-
+  context "Class methods" do
     it ".all returns all instances of Owner that have been created" do
       expect(Owner.all).to include(@owner)
     end
@@ -30,11 +28,9 @@ describe Owner do
       Owner.reset_all
       expect(Owner.count).to eq(0)
     end
-
   end
 
-  context 'Instance methods' do
-
+  context "Instance methods" do
     describe "#species" do
       it "initializes with a species" do
         expect(@owner.species).to eq("human")
@@ -62,7 +58,7 @@ describe Owner do
     end
 
     describe "#buy_cat" do
-      it 'can buy a cat that is an instance of the Cat class' do
+      it "can buy a cat that is an instance of the Cat class" do
         expect(@owner.cats.count).to eq(0)
         @owner.buy_cat("Crookshanks")
         @owner.cats.each do |cat|
@@ -71,15 +67,14 @@ describe Owner do
         expect(@owner.cats.count).to eq(1)
       end
 
-      it 'knows about its cats' do
+      it "knows about its cats" do
         @owner.buy_cat("Crookshanks")
         expect(@owner.cats[0].name).to eq("Crookshanks")
       end
-
     end
 
     describe "#buy_dog" do
-      it 'can buy a dog that is an instance of the Dog class' do
+      it "can buy a dog that is an instance of the Dog class" do
         expect(@owner.dogs.count).to eq(0)
         @owner.buy_dog("Snuffles")
         @owner.dogs.each do |dog|
@@ -88,8 +83,7 @@ describe Owner do
         expect(@owner.dogs.count).to eq(1)
       end
 
-
-      it 'knows about its dogs' do
+      it "knows about its dogs" do
         @owner.buy_dog("Snuffles")
         expect(@owner.dogs[0].name).to eq("Snuffles")
       end
@@ -111,27 +105,26 @@ describe Owner do
       end
     end
 
-
     describe "#sell_pets" do
-      it 'can sell all its pets, which makes them nervous' do
+      it "can sell all its pets, which makes them nervous" do
         fido = Dog.new("Fido", @owner)
         tabby = Cat.new("Tabby", @owner)
-        [fido, tabby].each {|o| o.mood = "happy" }
+        [fido, tabby].each { |o| o.mood = "happy" }
         @owner.sell_pets
         [fido, tabby].each { |o| expect(o.mood).to eq("nervous") }
       end
 
-      it 'can sell all its pets, which leaves them without an owner' do
+      it "can sell all its pets, which leaves them without an owner" do
         fido = Dog.new("Fido", @owner)
         tabby = Cat.new("Tabby", @owner)
-        [fido, tabby].each {|o| o.mood = "happy" }
+        [fido, tabby].each { |o| o.mood = "happy" }
         @owner.sell_pets
         [fido, tabby].each { |o| expect(o.owner).to be(nil) }
       end
     end
 
     describe "#list_pets" do
-      it 'can list off its pets' do
+      it "can list off its pets" do
         @owner.buy_cat("Crookshanks")
         @owner.buy_dog("Fido")
         @owner.buy_dog("Snuffles")
